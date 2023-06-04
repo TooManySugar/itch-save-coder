@@ -1,0 +1,82 @@
+<?xml version="1.0"?>
+<xs:schema attributeFormDefault="unqualified" elementFormDefault="qualified" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+
+  <xs:complexType name="entryType">
+    <xs:attribute name="name"  type="xs:string" use="required"/>
+    <xs:attribute name="score" type="xs:int"    use="required"/>
+    <xs:attribute name="moves" type="xs:int"    use="required"/>
+    <xs:attribute name="level" type="xs:int"    use="required"/>
+    <xs:attribute name="undo"  type="xs:int"    use="required"/>
+  </xs:complexType>
+
+  <xs:complexType name="highScoreTableType">
+    <xs:sequence>
+      <xs:element name="entry" maxOccurs="unbounded" minOccurs="0" type="entryType"/>
+    </xs:sequence>
+
+    <xs:attribute name="levelName" type="xs:string" use="required"/>
+  </xs:complexType>
+
+  <xs:complexType name="solvedPuzzleType">
+    <xs:attribute name="id" type="xs:int" use="required"/>
+  </xs:complexType>
+
+  <xs:simpleType name="volumeType">
+    <xs:restriction base="xs:byte">
+      <xs:minInclusive value="0"/>
+      <xs:maxInclusive value="127"/>
+    </xs:restriction>
+  </xs:simpleType>
+
+  <xs:complexType name="userType">
+    <xs:sequence>
+      <xs:element name="solvedPuzzle" type="solvedPuzzleType" maxOccurs="unbounded" minOccurs="0"/>
+    </xs:sequence>
+
+    <!-- name of user profile -->
+    <xs:attribute name="name"      type="xs:string"  use="required"/>
+    <xs:attribute name="timegame"  type="xs:int"     use="required"/>
+    <xs:attribute name="roundgame" type="xs:int"     use="required"/>
+    <xs:attribute name="stgame"    type="xs:int"     use="required"/>
+    <xs:attribute name="srgame"    type="xs:int"     use="required"/>
+    <!-- music and sound restricted to values from 0 to 127
+         where 0 is 0% and 127 is 100% of volume -->
+    <xs:attribute name="music"     type="volumeType" use="required"/>
+    <xs:attribute name="sound"     type="volumeType" use="required"/>
+    <xs:attribute name="sg0"       type="xs:int"     use="required"/>
+    <xs:attribute name="sg1"       type="xs:int"     use="required"/>
+  </xs:complexType>
+
+
+  <xs:simpleType name="intBool">
+    <xs:restriction base="xs:byte">
+      <xs:minInclusive value="0"/>
+      <xs:maxInclusive value="1"/>
+    </xs:restriction>
+  </xs:simpleType>
+
+  <xs:complexType name="pusherConfigurationType">
+    <xs:sequence>
+      <!-- with levelName == "timeModeLevel" -->
+      <xs:element name="highScoreTable" type="highScoreTableType" use="required"/>
+      <!-- with levelName == "roundModeLevel" -->
+      <xs:element name="highScoreTable" type="highScoreTableType" use="required"/>
+      <xs:element name="user"           type="userType" maxOccurs="unbounded" minOccurs="0"/>
+    </xs:sequence>
+
+    <xs:attribute name="bitsPerPixel"             type="xs:int"  use="required"/>
+    <xs:attribute name="fullscreen"               type="intBool" use="required"/>
+    <xs:attribute name="useGFrameWork"            type="intBool" use="required"/>
+    <xs:attribute name="clickToleranceX"          type="xs:int"  use="required"/>
+    <xs:attribute name="clickToleranceY"          type="xs:int"  use="required"/>
+    <xs:attribute name="useDirectDraw"            type="intBool" use="required"/>
+    <xs:attribute name="usePrototypeInputHandler" type="intBool" use="required"/>
+    <xs:attribute name="lastPlayedStandardLevel"  type="xs:int"  use="required"/>
+    <!-- index of last selected user profile starting from 0 -->
+    <xs:attribute name="lastUserUsed"             type="xs:int"  use="required"/>
+    <xs:attribute name="enableMiles"              type="intBool" use="required"/>
+    <xs:attribute name="enableLogging"            type="intBool" use="required"/>
+  </xs:complexType>
+
+  <xs:element name="pusherConfiguration" type="pusherConfigurationType"/>
+</xs:schema>

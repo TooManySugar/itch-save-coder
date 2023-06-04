@@ -17,7 +17,7 @@ endif
 # Target
 TARGET := itch-save-coder
 
-VERISON := 0.1
+VERSION := 0.1
 
 ifeq ($(OS_TYPE),Windows)
 TARGET := $(addsuffix .exe,$(TARGET))
@@ -25,7 +25,7 @@ endif
 
 CFLAGS ?= -O2 -Wall -std=c99
 
-DEFINES := -DPROGRAM_NAME="\"$(TARGET)\"" -DVERSION="\"$(VERISON)\""
+DEFINES := -DPROGRAM_NAME="\"$(TARGET)\"" -DVERSION="\"$(VERSION)\""
 
 default: build
 
